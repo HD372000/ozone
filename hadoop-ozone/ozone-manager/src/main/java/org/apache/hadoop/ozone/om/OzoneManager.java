@@ -4135,7 +4135,8 @@ public final class OzoneManager extends ServiceRuntimeInfoImpl
     Pair<String, String> resolved;
     if (isAclEnabled) {
       resolved = resolveBucketLink(requested, new HashSet<>(),
-              omClientRequest.createUGI(), omClientRequest.getRemoteAddress(),
+              omClientRequest.createUGIForApi(),
+              omClientRequest.getRemoteAddress(),
               omClientRequest.getHostName());
     } else {
       resolved = resolveBucketLink(requested, new HashSet<>(),
@@ -4458,8 +4459,8 @@ public final class OzoneManager extends ServiceRuntimeInfoImpl
   }
 
   @Override
-  public EchoRPCResponse echoRPCReq(byte[] payloadReq,
-                                    int payloadSizeResp) {
+  public EchoRPCResponse echoRPCReq(byte[] payloadReq, int payloadSizeResp,
+                                    boolean writeToRatis) {
     return null;
   }
 
