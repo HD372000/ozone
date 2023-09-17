@@ -21,8 +21,12 @@ cd "$DIR/../../.." || exit 1
 
 source "${DIR}/_lib.sh"
 
-install_virtualenv
-install_robot
+source "$(pwd)/dev-support/ci/lib/_all_libs.sh"
+
+start_end::group_start "Install Virtual Environment and Robot Framework"
+  install_virtualenv
+  install_robot
+start_end::group_end
 
 REPORT_DIR=${OUTPUT_DIR:-"$DIR/../../../target/acceptance"}
 
