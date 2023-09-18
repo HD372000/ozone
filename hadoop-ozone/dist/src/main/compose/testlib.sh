@@ -396,13 +396,14 @@ copy_results() {
   mv -v "${result_dir}"/* "${target_dir}"/
 }
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+     cd "$DIR/../../../../../.." || exit 1
+
+source "$(pwd)/dev-support/ci/lib/_all_libs.sh"
+
 run_test_script() {
   local d="$1"
   local test_script="${2:-test.sh}"
-  local DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-                cd "$DIR/../../../../../.." || exit 1
-
-  source "$(pwd)/dev-support/ci/lib/_all_libs.sh"
 
   start_end::group_start "Execute tests ${d}/${test_script}"
   echo "Executing test ${d}/${test_script}"
