@@ -19,6 +19,9 @@ set -e -o pipefail
 _testlib_this="${BASH_SOURCE[0]}"
 _testlib_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
+root_dir="${_testlib_dir}/../../../../.."
+source "${root_dir}/dev-support/ci/lib/_all_libs.sh"
+
 COMPOSE_ENV_NAME=$(basename "$COMPOSE_DIR")
 RESULT_DIR=${RESULT_DIR:-"$COMPOSE_DIR/result"}
 RESULT_DIR_INSIDE="/tmp/smoketest/$(basename "$COMPOSE_ENV_NAME")/result"
@@ -395,11 +398,6 @@ copy_results() {
   mkdir -p "${target_dir}"
   mv -v "${result_dir}"/* "${target_dir}"/
 }
-
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-     cd "$DIR/../../../../../.." || exit 1
-
-source "$(pwd)/dev-support/ci/lib/_all_libs.sh"
 
 run_test_script() {
   local d="$1"
