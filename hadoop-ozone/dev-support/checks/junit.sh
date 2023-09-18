@@ -43,7 +43,7 @@ fi
 
 source "$(pwd)/dev-support/ci/lib/_all_libs.sh"
 
-start_end::group_start "mvn ${MAVEN_OPTIONS} -DskipTests clean install"
+start_end::group_start "Optional build"
 if [[ "${CHECK}" == "integration" ]] || [[ ${ITERATIONS} -gt 1 ]]; then
   mvn ${MAVEN_OPTIONS} -DskipTests clean install
 fi

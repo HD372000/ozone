@@ -399,7 +399,12 @@ copy_results() {
 run_test_script() {
   local d="$1"
   local test_script="${2:-test.sh}"
+  local DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+                cd "$DIR/../../../../.." || exit 1
 
+  source "$(pwd)/dev-support/ci/lib/_all_libs.sh"
+
+  start_end::group_start "Execute tests"
   echo "Executing test ${d}/${test_script}"
 
   #required to read the .env file from the right location
@@ -410,6 +415,7 @@ run_test_script() {
     ret=1
     echo "ERROR: Test execution of ${d}/${test_script} is FAILED!!!!"
   fi
+  start_end::group_end
 
   cd - > /dev/null
 
