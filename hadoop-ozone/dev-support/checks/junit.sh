@@ -41,6 +41,8 @@ else
   MAVEN_OPTIONS="${MAVEN_OPTIONS} --fail-at-end"
 fi
 
+source "$(pwd)/dev-support/ci/lib/_all_libs.sh"
+
 start_end::group_start "mvn ${MAVEN_OPTIONS} -DskipTests clean install"
 if [[ "${CHECK}" == "integration" ]] || [[ ${ITERATIONS} -gt 1 ]]; then
   mvn ${MAVEN_OPTIONS} -DskipTests clean install
