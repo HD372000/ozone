@@ -24,8 +24,8 @@ source "${DIR}/_lib.sh"
 source "$(pwd)/dev-support/ci/lib/_all_libs.sh"
 
 start_end::group_start "Install Virtual Environment and Robot Framework"
-  install_virtualenv
-  install_robot
+install_virtualenv
+install_robot
 start_end::group_end
 
 REPORT_DIR=${OUTPUT_DIR:-"$DIR/../../../target/acceptance"}
@@ -47,9 +47,9 @@ cd "$DIST_DIR/compose" || exit 1
 RES=$?
 
 start_end::group_start "Copying Results"
-  cp -rv result/* "$REPORT_DIR/"
-  cp "$REPORT_DIR/log.html" "$REPORT_DIR/summary.html"
-  find "$REPORT_DIR" -type f -empty -print0 | xargs -0 rm -v
+cp -rv result/* "$REPORT_DIR/"
+cp "$REPORT_DIR/log.html" "$REPORT_DIR/summary.html"
+find "$REPORT_DIR" -type f -empty -print0 | xargs -0 rm -v
 start_end::group_end
 
 exit $RES
