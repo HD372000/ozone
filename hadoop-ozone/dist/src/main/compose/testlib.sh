@@ -19,8 +19,6 @@ set -e -o pipefail
 _testlib_this="${BASH_SOURCE[0]}"
 _testlib_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-root_dir="${_testlib_dir}/../../../../.."
-
 COMPOSE_ENV_NAME=$(basename "$COMPOSE_DIR")
 RESULT_DIR=${RESULT_DIR:-"$COMPOSE_DIR/result"}
 RESULT_DIR_INSIDE="/tmp/smoketest/$(basename "$COMPOSE_ENV_NAME")/result"
@@ -399,13 +397,13 @@ copy_results() {
 }
 
 run_test_script() {
-  if ! type -f start_end::group_start >& /dev/null; then
-    source "${root_dir}/dev-support/ci/lib/_all_libs.sh"
-  fi
-  start_end::group_start "Execute tests ${d}/${test_script}"
+  local root_dir="${_testlib_dir}/../../../../.."
+  source "${root_dir}/dev-support/ci/lib/_all_libs.sh"
+
   local d="$1"
   local test_script="${2:-test.sh}"
 
+  start_end::group_start "Execute tests ${d}/${test_script}"
   echo "Executing test ${d}/${test_script}"
 
   #required to read the .env file from the right location
@@ -416,11 +414,11 @@ run_test_script() {
     ret=1
     echo "ERROR: Test execution of ${d}/${test_script} is FAILED!!!!"
   fi
+  start_end::group_end
 
   cd - > /dev/null
 
   return ${ret}
-  start_end::group_end
 }
 
 run_test_scripts() {
