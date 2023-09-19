@@ -19,8 +19,6 @@ set -e -o pipefail
 _testlib_this="${BASH_SOURCE[0]}"
 _testlib_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-root_dir="${_testlib_dir}/../../../../.."
-source "${root_dir}/dev-support/ci/lib/_all_libs.sh"
 
 COMPOSE_ENV_NAME=$(basename "$COMPOSE_DIR")
 RESULT_DIR=${RESULT_DIR:-"$COMPOSE_DIR/result"}
@@ -403,7 +401,6 @@ run_test_script() {
   local d="$1"
   local test_script="${2:-test.sh}"
 
-  start_end::group_start "Execute tests ${d}/${test_script}"
   echo "Executing test ${d}/${test_script}"
 
   #required to read the .env file from the right location
@@ -414,7 +411,6 @@ run_test_script() {
     ret=1
     echo "ERROR: Test execution of ${d}/${test_script} is FAILED!!!!"
   fi
-  start_end::group_end
 
   cd - > /dev/null
 
