@@ -402,10 +402,10 @@ copy_results() {
 }
 
 run_test_script() {
+  start_end::group_start "Execute tests ${d}/${test_script}"
   local d="$1"
   local test_script="${2:-test.sh}"
 
-  start_end::group_start "Execute tests ${d}/${test_script}"
   echo "Executing test ${d}/${test_script}"
 
   #required to read the .env file from the right location
@@ -416,11 +416,11 @@ run_test_script() {
     ret=1
     echo "ERROR: Test execution of ${d}/${test_script} is FAILED!!!!"
   fi
-  start_end::group_end
 
   cd - > /dev/null
 
   return ${ret}
+  start_end::group_end
 }
 
 run_test_scripts() {
