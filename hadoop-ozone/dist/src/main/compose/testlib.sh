@@ -20,9 +20,6 @@ _testlib_this="${BASH_SOURCE[0]}"
 _testlib_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 root_dir="${_testlib_dir}/../../../../.."
-if ! type -f start_end::group_start >& /dev/null; then
-  source "${root_dir}/dev-support/ci/lib/_all_libs.sh"
-fi
 
 COMPOSE_ENV_NAME=$(basename "$COMPOSE_DIR")
 RESULT_DIR=${RESULT_DIR:-"$COMPOSE_DIR/result"}
@@ -402,6 +399,9 @@ copy_results() {
 }
 
 run_test_script() {
+  if ! type -f start_end::group_start >& /dev/null; then
+    source "${root_dir}/dev-support/ci/lib/_all_libs.sh"
+  fi
   start_end::group_start "Execute tests ${d}/${test_script}"
   local d="$1"
   local test_script="${2:-test.sh}"
