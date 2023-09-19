@@ -20,7 +20,9 @@ _testlib_this="${BASH_SOURCE[0]}"
 _testlib_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 root_dir="${_testlib_dir}/../../../../.."
-source "${root_dir}/dev-support/ci/lib/_all_libs.sh"
+if ! type -f start_end::group_start >& /dev/null; then
+  source "${root_dir}/dev-support/ci/lib/_all_libs.sh"
+fi
 
 COMPOSE_ENV_NAME=$(basename "$COMPOSE_DIR")
 RESULT_DIR=${RESULT_DIR:-"$COMPOSE_DIR/result"}
@@ -414,9 +416,9 @@ run_test_script() {
     ret=1
     echo "ERROR: Test execution of ${d}/${test_script} is FAILED!!!!"
   fi
+  start_end::group_end
 
   cd - > /dev/null
-  start_end::group_end
 
   return ${ret}
 }
