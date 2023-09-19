@@ -19,6 +19,9 @@ set -u -o pipefail
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd "$DIR/../../.." || exit 1
 
+root_dir="${DIR}/../../.."
+source "${root_dir}/dev-support/ci/lib/_all_libs.sh"
+
 : ${CHECK:="unit"}
 : ${ITERATIONS:="1"}
 : ${OZONE_WITH_COVERAGE:="false"}
@@ -41,9 +44,11 @@ else
   MAVEN_OPTIONS="${MAVEN_OPTIONS} --fail-at-end"
 fi
 
+start_end::group_start "Optional Build"
 if [[ "${CHECK}" == "integration" ]] || [[ ${ITERATIONS} -gt 1 ]]; then
   mvn ${MAVEN_OPTIONS} -DskipTests clean install
 fi
+start_end::group_end
 
 REPORT_DIR=${OUTPUT_DIR:-"$DIR/../../../target/${CHECK}"}
 mkdir -p "$REPORT_DIR"
@@ -56,8 +61,10 @@ for i in $(seq 1 ${ITERATIONS}); do
     mkdir -p "${REPORT_DIR}"
   fi
 
+  start_end::group_start "Build and Run Tests"
   mvn ${MAVEN_OPTIONS} "$@" test \
     | tee "${REPORT_DIR}/output.log"
+  start_end::group_end
   irc=$?
 
   # shellcheck source=hadoop-ozone/dev-support/checks/_mvn_unit_report.sh

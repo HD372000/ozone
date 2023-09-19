@@ -21,8 +21,13 @@ cd "$DIR/../../.." || exit 1
 
 source "${DIR}/_lib.sh"
 
+root_dir="${DIR}/../../.."
+source "${root_dir}/dev-support/ci/lib/_all_libs.sh"
+
+start_end::group_start "Install Dependencies"
 install_virtualenv
 install_robot
+start_end::group_end
 
 REPORT_DIR=${OUTPUT_DIR:-"$DIR/../../../target/acceptance"}
 
@@ -41,7 +46,9 @@ export OZONE_ACCEPTANCE_SUITE
 cd "$DIST_DIR/compose" || exit 1
 ./test-all.sh 2>&1 | tee "${REPORT_DIR}/output.log"
 RES=$?
+start_end::group_start "Log Collection"
 cp -rv result/* "$REPORT_DIR/"
 cp "$REPORT_DIR/log.html" "$REPORT_DIR/summary.html"
 find "$REPORT_DIR" -type f -empty -print0 | xargs -0 rm -v
+start_end::group_end
 exit $RES
