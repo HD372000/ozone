@@ -399,7 +399,6 @@ copy_results() {
 run_test_script() {
   local root_dir="${_testlib_dir}/../../../../.."
   source "${root_dir}/dev-support/ci/lib/_all_libs.sh"
-
   local d="$1"
   local test_script="${2:-test.sh}"
 
@@ -416,6 +415,8 @@ run_test_script() {
   fi
 
   cd - > /dev/null
+
+  copy_results
   start_end::group_end
 
   return ${ret}

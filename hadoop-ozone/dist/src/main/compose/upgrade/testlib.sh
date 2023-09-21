@@ -125,5 +125,4 @@ run_test() {
     RESULT=1
   fi
 
-  copy_results "$execution_dir" "$ALL_RESULT_DIR"
 }
