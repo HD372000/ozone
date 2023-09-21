@@ -414,9 +414,9 @@ run_test_script() {
     ret=1
     echo "ERROR: Test execution of ${d}/${test_script} is FAILED!!!!"
   fi
-  start_end::group_end
 
   cd - > /dev/null
+  start_end::group_end
 
   return ${ret}
 }
